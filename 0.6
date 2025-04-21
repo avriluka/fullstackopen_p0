@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: El usuario escribe una nota y hace clic en "Save"
+    Note right of browser: JavaScript captura el evento y prepara los datos
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate server
+    Note right of server: El servidor guarda la nueva nota
+    server-->>browser: { message: "note created" }
+    deactivate server
+
+    Note right of browser: JavaScript actualiza la lista de notas en memoria
+    Note right of browser: Se renderiza la nueva nota en la interfaz sin recargar la página
