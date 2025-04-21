@@ -1,0 +1,38 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: El usuario escribe una nueva nota y hace clic en "Save"
+    Note right of browser: Se intercepta el evento submit del formulario con JavaScript
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    activate server
+    Note right of server: El servidor recibe los datos del formulario (nota + timestamp)
+    server-->>browser: Redirección (HTTP 302) a /exampleapp/notes
+    deactivate server
+
+    Note right of browser: El navegador sigue la redirección
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: HTML document
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: CSS file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: JavaScript file
+    deactivate server
+
+    Note right of browser: El navegador ejecuta el JavaScript que vuelve a hacer la solicitud de datos
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: JSON con todas las notas (incluyendo la nueva)
+    deactivate server
+
+    Note right of browser: Se renderizan de nuevo todas las notas
